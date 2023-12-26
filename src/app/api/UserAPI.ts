@@ -5,8 +5,16 @@ const user: User = {
   name: 'Stepan',
  image:'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.alamy.com%2Fstock-photo%2Fstepan-bandera.html&psig=AOvVaw1TPncsNzj9YLEYFQb-0j4N&ust=1702296456381000&source=images&cd=vfe&ved=0CBIQjRxqFwoTCNirxc7qhIMDFQAAAAAdAAAAABAE',
   surname: 'Bond',
-  age: 48
-  
+  age: 48,
+  role: 'marketer'
+}
+
+const login = (username: string, password: string): {user: User | null, error?: string} => {
+  return {user}  
+}
+
+const signIn = (username: string, password: string): {user: User | null, error?: string} => {
+  return {user}
 }
 
 const getUsers = () => {
@@ -14,15 +22,7 @@ const getUsers = () => {
 }
 
 const loadUsers = async (parameters: string) => {
-    const domain: string = ""
-    let url: string = domain+parameters
-    console.log(url)
-    let response = await fetch(url)
-
-    if(!response.ok) return await response.json()
-
-    let objectResponse = await response.json()
-    return objectResponse 
+  
 }
 
-export {getUsers,loadUsers}
+export {getUsers,loadUsers,login,signIn}

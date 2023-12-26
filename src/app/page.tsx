@@ -6,18 +6,11 @@ import UserStore from "./stores/UserStore";
 
 
 export default function Home() {
-  // useEffect(() => {
-    // new UserService(loadUsers).updateUsers();
-// }, [])
-// const userStore = UserStore
-// console.log("🚀 ~ file: page.tsx:13 ~ Home ~ userStore.users:", userStore.users)
   return (
-    <div>
-
-      <div className="flex min-h-screen flex-col items-center justify-between p-24">
-        TEMP
-      {/* {userStore.users.map((user, index) => <div key={index}></div>)} */}
-      </div>
+    <div className="text-center flex items-center flex-col gap-5 justify-center mt-10">
+      <h1 className="text-4xl font-bold mb-4">Ласкаво просимо на веб-сайт Game Marketing!</h1>
+      <p className="text-lg">Тут ви можете купувати ігри, а також допомагати їх вдосконалювати за допомогою зворотного зв'язку та опитувань.</p>
+      <img className="w-1/2 rounded-3xl mt-10" src="https://previews.123rf.com/images/deniex3/deniex32304/deniex3230400407/203392979-futuristic-man-wearing-virtual-reality-headset-with-hypernova-background-metaverse-vr-concept-player.jpg"></img>
     </div>
   )
 }
