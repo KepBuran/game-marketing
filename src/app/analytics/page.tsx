@@ -1,8 +1,9 @@
-// import { observer } from 'mobx-react'
+'use client';
+import { observer } from 'mobx-react';
 import BarChart from '../components/analytics/BarChart'
 import usersStore from "../stores/UsersStore";
 
-function Page() {
+function AnalyticsPage() {
   
   const getPage = () => {
     if (usersStore.currentUser?.role !== 'marketer') {
@@ -33,4 +34,4 @@ function Page() {
   return getPage()
 }
 
-export default Page 
+export default observer(AnalyticsPage) 

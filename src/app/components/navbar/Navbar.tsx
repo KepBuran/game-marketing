@@ -24,6 +24,11 @@ function Navbar() {
       {text: 'Games', href: '', dropItems: gamesStore.navBarGames},
     ]
 
+    if (usersStore.currentUser) {
+      newPages.push({text: 'Library', href: '/library'})
+      newPages.push({text: 'Profile', href: '/profile'})
+    }
+
     if (usersStore.currentUser?.role === 'marketer') {
       newPages.push({text: 'Analytics', href: '/analytics'})
     }

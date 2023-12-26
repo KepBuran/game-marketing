@@ -12,9 +12,15 @@ import { computed } from "mobx";
 export default function Page({ params }: { params: { gameName: string } }) {
   const gamesService = useMemo(() => GamesService.getInstance(), []);
   const game: Game | undefined = gamesStore.gameById(params.gameName)
+  const { push } = useRouter();
 
   const buyGame = () => {
     const currentUser = usersStore.currentUser
+    if (!currentUser) {
+      push('/login')
+      return
+    }
+
     gamesService.buyGame(game!.id)
   }
 
@@ -49,7 +55,7 @@ export default function Page({ params }: { params: { gameName: string } }) {
                 <GameInfo params={{ title: 'Developer:', text: game.developer }} />
                 <GameInfo params={{ title: 'Publisher:', text: game.publisher }} />
               </div>
-              <button className="rounded-2xl w-auto mt-auto px-6 py-3 text-3xl self-end gradient-transition bg-pos-0 hover:bg-pos-200 mx-auto bg-gradient-to-r to-fuchsia-500 from-cyan-500 bg-size-200 text-white font-semibold cursor-pointer">Buy</button>
+              <button onClick={buyGame} className="rounded-2xl w-auto mt-auto px-6 py-3 text-3xl self-end gradient-transition bg-pos-0 hover:bg-pos-200 mx-auto bg-gradient-to-r to-fuchsia-500 from-cyan-500 bg-size-200 text-white font-semibold cursor-pointer">{buttonTitle.get()}</button>
             </div>
           </div>
       </>
