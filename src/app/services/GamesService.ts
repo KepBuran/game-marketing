@@ -1,4 +1,4 @@
-import { getGames } from "../api/GamesAPI";
+import gamesApi from "../api/GamesAPI";
 import gamesStore from "../stores/GamesStore";
 
 
@@ -17,7 +17,11 @@ export class GamesService {
   }
 
   setGames() {
-    gamesStore.games = getGames();
+    gamesStore.games = gamesApi.getGames();
+  }
+
+  buyGame(gameId: string) {
+    gamesApi.buyGame(gameId);
   }
 
 }

@@ -58,6 +58,21 @@ const games: Game[] = [
   },
 ]
 
-export const getGames = (): Game[] => {
+
+const getGames = (): Game[] => {
   return games
 }
+
+const buyGame = (gameId: string) => {
+  const game = games.find(game => game.id === gameId)
+  if (game) {
+    alert(`You bought ${game.name}!`)
+  }
+}
+
+const gamesApi = {
+  getGames,
+  buyGame
+}
+
+export default gamesApi

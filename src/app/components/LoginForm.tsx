@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 interface LoginFormProps {
-  handleSubmit: (username: string, password: string) => void;
+  handleSubmit: ((username: string, password: string, passwordConfirmation?: string) => void) | ((username: string, password: string) => void);
   submitButtonText: string;
   isPasswordConfirmation?: boolean; // Add isPasswordConfirmation prop
 }
@@ -25,7 +25,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleSubmit, submitButtonText, i
   };
 
   return (
-    <form onSubmit={() => handleSubmit(username, password)} className="flex flex-col space-y-4">
+    <form className="flex flex-col space-y-4">
       <div>
         <label htmlFor="username" className="text-gray-700 mr-2">Username:</label>
         <input
@@ -58,7 +58,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleSubmit, submitButtonText, i
           />
         </div>
       )}
-      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+      <button type="button" onClick={() => handleSubmit(username, password, passwordConfirmation)} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
         {submitButtonText}
       </button>
     </form>

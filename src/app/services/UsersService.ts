@@ -1,27 +1,27 @@
-import { getUsers, loadUsers, login, signIn } from "../api/UserAPI";
+import usersApi from "../api/UserAPI";
 import { SearchParameters, defaultSearchParameters } from "../models/SearchParameters";
 import { SortBy } from "../models/SortBy";
-import userStore from "../stores/UserStore";
+import userStore from "../stores/UsersStore";
 import {runInAction} from "mobx";
 
-export class UserService {
-  private static instance: UserService;
+export class UsersService {
+  private static instance: UsersService;
   
   private constructor() {}
 
-  public static getInstance(): UserService {
-    if (!UserService.instance) {
-      UserService.instance = new UserService();
+  public static getInstance(): UsersService {
+    if (!UsersService.instance) {
+      UsersService.instance = new UsersService();
     }
-    return UserService.instance;
+    return UsersService.instance;
   }
 
   getUsers() {
-    userStore.users = getUsers();
+    userStore.users = usersApi.getUsers();
   }
 
   login(username: string, password: string): {success: boolean, error?: string} {
-    const {user, error} = login(username, password);
+    const {user, error} = usersApi.login(username, password);
     if (error) {
       return {success: false, error}
     }
@@ -31,7 +31,7 @@ export class UserService {
 
 
   signIn(username: string, password: string): {success: boolean, error?: string} {
-    const {user, error} = login(username, password);
+    const {user, error} = usersApi.signIn(username, password);
     if (error) {
       return {success: false, error}
     }

@@ -25,4 +25,11 @@ const loadUsers = async (parameters: string) => {
   
 }
 
-export {getUsers,loadUsers,login,signIn}
+const usersApi = {
+  getUsers,
+  loadUsers,
+  login,
+  signIn
+}
+
+export default usersApi

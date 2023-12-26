@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { useState } from "react";
 
-interface NavbarItemProps {
+export interface INavbarItem {
   text: string
   href: string
   dropItems?: {text: string, href: string}[]
 }
 
-export default function NavbarItem({text, href, dropItems}: NavbarItemProps) {
+export default function NavbarItem({text, href, dropItems}: INavbarItem) {
   const [isDropdownVisible, setDropdownVisible] = useState(false);
 
   const handleMouseEnter = () => {

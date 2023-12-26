@@ -1,14 +1,33 @@
+'use client'
+
 import { useRouter } from "next/navigation"
 import GameInfo from "../../components/game/GameInfo"
 import { Game } from "@/app/models/Game"
 import { GamesService } from "@/app/services/GamesService";
 import { useMemo } from "react";
 import gamesStore from "../../stores/GamesStore";
+import usersStore from "../../stores/UsersStore";
+import { computed } from "mobx";
 
 export default function Page({ params }: { params: { gameName: string } }) {
   const gamesService = useMemo(() => GamesService.getInstance(), []);
   const game: Game | undefined = gamesStore.gameById(params.gameName)
 
+  const buyGame = () => {
+    const currentUser = usersStore.currentUser
+    gamesService.buyGame(game!.id)
+  }
+
+  const buttonTitle = computed(() => {
+    const userHasGame = true
+
+    if (!userHasGame) {
+      return 'Buy'
+    }
+
+    return 'Play'
+
+  })
 
   const gameComponent = useMemo(() => {
     if (!game) {

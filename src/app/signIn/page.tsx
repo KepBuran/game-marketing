@@ -1,20 +1,39 @@
 'use client';
 import React, { useMemo, useState } from 'react';
 import LoginForm from '../components/LoginForm';
-import { GamesService } from '../services/GamesService';
+import { UsersService } from '../services/UsersService';
+import { useRouter } from 'next/navigation';
 
 const SignInPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
-  const usersService = useMemo(() => new GamesService(), []);
+  const usersService = useMemo(() => UsersService.getInstance(), []);
 
-  const handleSignIn = (username, password) => {
-    // Perform your sign-in logic here
-    // For example, make an API call to authenticate the user
+  const { push } = useRouter();
 
-    // If there's an error, set the error state
-    setError('Invalid username or password');
+  const handleSignIn = (username: string, password: string, passwordConfirmation?: string) => {
+    if (password !== passwordConfirmation) {
+      setError('Passwords do not match');
+      return;
+    }
+     
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters long');
+      return;
+    }
 
-    // If sign-in is successful, redirect the user to the dashboard or another page
+    if (username.length < 4) {
+      setError('Username must be at least 4 characters long');
+      return;
+    }
+
+    const { success, error } = usersService.signIn(username, password);
+    if (!success) {
+      setError(error);
+      return;
+    }
+
+    setError(null);
+    push('/');
   };
 
   return (

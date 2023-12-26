@@ -1,9 +1,8 @@
 import {makeAutoObservable} from "mobx";
 import { User } from "../models/User";
-import { SearchParameters, defaultSearchParameters } from "../models/SearchParameters";
 
 
-class UserStore {
+class UsersStore {
     private _users: User[] = [];
     private _currentUser: User | null = null;
 
@@ -29,4 +28,4 @@ class UserStore {
     }
 }
 
-export default new UserStore()
+export default new UsersStore()

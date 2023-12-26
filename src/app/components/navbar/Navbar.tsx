@@ -1,24 +1,33 @@
 "use client";
 
 import Link from "next/link";
-import NavbarItem from "./NavbarItem"
+import NavbarItem, {INavbarItem} from "./NavbarItem"
 import Image from "next/image"
-import { GamesBLoC } from "@/app/BLoCs/GamesBLoC";
-import { GamesService } from "@/app/services/GamesService";
+import { GamesService } from "../../services/GamesService";
 import { useEffect, useMemo, useState } from "react";
 import gamesStore from "../../stores/GamesStore";
-import { computed } from "mobx";
+import usersStore from "../../stores/UsersStore";
+import { IComputedValue, computed } from "mobx";
+import { UsersService } from "../../services/UsersService";
+import { observer } from "mobx-react";
 
-export default function Navbar() {
-  const articlesService = useMemo(() => new GamesService(), []);
-  const gamesBLoC: GamesBLoC = useMemo(() => {return new GamesBLoC()}, []);
+function Navbar() {
+  const gamesService = useMemo(() => GamesService.getInstance(), []);
+  const usersService = useMemo(() => UsersService.getInstance(), []);
+  
+  const logout = () => {
+    usersService.logout()
+  }
 
-  const pages = computed(() => {
-    const newPages = [
-    {text: 'Home', href: '/'},
-    {text: 'Games', href: '', dropItems: gamesStore.navBarGames},
-    {text: 'Analytics', href: '/analytics'},
+  const pages: IComputedValue<INavbarItem[]> = computed(() => {
+    const newPages: INavbarItem[] = [
+      {text: 'Games', href: '', dropItems: gamesStore.navBarGames},
     ]
+
+    if (usersStore.currentUser?.role === 'marketer') {
+      newPages.push({text: 'Analytics', href: '/analytics'})
+    }
+
     const gamesPage = newPages.find(el => el.text === 'Games')
     if (gamesPage) {
       gamesPage.dropItems = gamesStore.navBarGames
@@ -39,8 +48,12 @@ export default function Navbar() {
             <NavbarItem key={page.text} href={page.href} text={page.text} dropItems={page.dropItems}/>
         ))}
       </div>
+
+      <Link onClick={logout} href={'/login'} className="ml-auto">
+        <Image src="/logout.svg" alt="logo" className="w-10 h-10 cursor-pointer" width={10} height={10}/>
+      </Link>
     </nav>
-
-
   )
 }
+
+export default observer(Navbar)
