@@ -10,7 +10,7 @@ const SignInPage: React.FC = () => {
 
   const { push } = useRouter();
 
-  const handleSignIn = (username: string, password: string, passwordConfirmation?: string) => {
+  const handleSignIn = async (username: string, password: string, passwordConfirmation?: string) => {
     if (password !== passwordConfirmation) {
       setError('Passwords do not match');
       return;
@@ -26,14 +26,16 @@ const SignInPage: React.FC = () => {
       return;
     }
 
-    const { success, error } = usersService.signIn(username, password);
-    if (!success) {
+    const {success, error} = await usersService.signIn(username, password)
+    if (success) {
+      push('/');
+      return;
+    }
+    if (error) {
       setError(error);
       return;
     }
-
-    setError(null);
-    push('/');
+    setError('Something went wrong. Please try again later');
   };
 
   return (

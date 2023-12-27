@@ -1,13 +1,17 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import LoginForm from '../components/LoginForm';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { UsersService } from '../services/UsersService';
 
 const LoginPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
+  const usersService = useMemo(() => UsersService.getInstance(), []);
 
-  const handleLogin = (username: string, password: string) => {
+  const { push } = useRouter();
+
+  const handleLogin = async (username: string, password: string) => {
     if (!username) {
       setError('Username is required');
       return;
@@ -18,8 +22,16 @@ const LoginPage: React.FC = () => {
       return;
     }
 
-    // Handle login logic here
-    setError('Invalid username or password');
+    const {success, error} = await usersService.login(username, password)
+    if (success) {
+      push('/');
+      return;
+    }
+    if (error) {
+      setError(error);
+      return;
+    }
+    setError('Something went wrong. Please try again later');
   };
 
   return (

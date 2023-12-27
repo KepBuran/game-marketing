@@ -26,7 +26,7 @@ function Navbar() {
 
     if (usersStore.currentUser) {
       newPages.push({text: 'Library', href: '/library'})
-      newPages.push({text: 'Profile', href: '/profile'})
+      // newPages.push({text: 'Profile', href: '/profile'})
     }
 
     if (usersStore.currentUser?.role === 'marketer') {
@@ -43,7 +43,7 @@ function Navbar() {
  
 
   return (
-    <nav className="flex items-center justify-start flex-row gap-6 primary-gradient-r  px-6 drop-shadow-md">
+    <nav className="flex fixed z-10 w-full items-center justify-start flex-row gap-6 primary-gradient-r  px-6 drop-shadow-md">
       <Link href={'/'}>
         <Image src="/game-controller.svg" alt="logo" className="w-10 h-10 cursor-pointer" width={10} height={10}/>
       </Link>

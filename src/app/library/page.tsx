@@ -5,16 +5,24 @@ import Link from "next/link";
 import gamesStore from "../stores/GamesStore";
 import { Game } from '../models/Game';
 import { GamesService } from '../services/GamesService';
+import { observer } from 'mobx-react';
+import usersStore from '../stores/UsersStore';
+import { IComputedValue, computed } from 'mobx';
+import { UsersService } from '../services/UsersService';
+import users from '../mock/users';
 
 const UserGamesList: React.FC<{ games: Game[] }> = ({ games }) => {
   const gamesService = useMemo(() => GamesService.getInstance(), []);
+  const usersService = useMemo(() => UsersService.getInstance(), []);
 
   //todo: add user games
-  const userGames: Game[] = gamesStore.games;
+  const userGames: IComputedValue<Game[]> = computed(() => {
+    return usersStore.currentUserGames
+  });
 
   return (
-    <div className='flex flex-col items-center gap-5'>
-      {userGames.map((game) => (
+    <div className='flex flex-col items-center gap-5 pb-5'>
+      {userGames.get().length === 0 ? (<h1 className="w-full text-center text-4xl mt-10">You don&apos;t have any games yet.</h1>) : userGames.get().map((game) => (
         <Link href={`/games/${game.id}`} key={game.id}>
           <div style={{ 
             backgroundImage: `url(${game.images[0]})`, 
@@ -38,4 +46,4 @@ const UserGamesList: React.FC<{ games: Game[] }> = ({ games }) => {
   );
 };
 
-export default UserGamesList;
+export default observer(UserGamesList);

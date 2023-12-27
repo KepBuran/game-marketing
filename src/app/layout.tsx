@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={montserrat.className} style={{minHeight: '100vh'}}>
         <Navbar />
-        <main style={{minHeight: 'calc(100vh - 48px)'}} className='max-w-8xl m-auto flex h-full flex-col content-center gap-6 pt-6 px-10 border-box bg-slate-200'>{children}</main> 
+        <main style={{minHeight: 'calc(100vh)', paddingTop: '68px'}} className='max-w-8xl m-auto flex h-full flex-col content-center gap-6 pt-20 px-10 border-box bg-slate-200'>{children}</main> 
       </body>
     </html>
   )

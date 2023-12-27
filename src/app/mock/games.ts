@@ -1,4 +1,4 @@
-import { Game } from "../models/Game"
+import { Game } from "../models/Game";
 
 const games: Game[] = [
   {
@@ -58,52 +58,4 @@ const games: Game[] = [
   },
 ]
 
-const url = 'http://localhost:3001/games'
-
-const processGettingGames = async (finalUrl: string): Promise<Game[] | null> => {
-  const games: Game[] = await fetch(finalUrl).then(res => res.json()).catch(err => {console.log(err); return null })
-  if (!games) {
-    return null
-  }
-  return games.map(game => ({...game, release: new Date(game.release)}))
-}
-
-const getAllGames = async (): Promise<Game[] | null> => {
-  return processGettingGames(url)
-}
-
-
-
-const buyGame = async (gameId: string, userId: string): Promise<{game: Game | null, error?: string}> => {
-  const result = await fetch(url+'/buyGame', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ userId, gameId })
-  })
-  .then(res => res.json())
-  .catch(err => { console.error(err); return 'Something went wrong. Please, try again later...' })
-  
-  if (typeof result === 'string') {
-    return { game: null, error: result }
-  }
-
-  if (result.game) {
-    result.game.release = new Date(result.game.release)
-  }
-  
-  return {game: result}
-}
-
-const getUserGames = async (userId: string): Promise<Game[] | null> => {
-  return processGettingGames(url+'/'+userId)
-}
-
-const gamesApi = {
-  getAllGames,
-  buyGame,
-  getUserGames
-}
-
-export default gamesApi
+export default games;

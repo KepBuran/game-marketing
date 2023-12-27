@@ -1,20 +1,56 @@
 import { User } from "../models/User"
+import UserByGame from "../models/UserByGame"
 
 const user: User = {
   id: 'user_id',
-  name: 'Stepan',
- image:'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.alamy.com%2Fstock-photo%2Fstepan-bandera.html&psig=AOvVaw1TPncsNzj9YLEYFQb-0j4N&ust=1702296456381000&source=images&cd=vfe&ved=0CBIQjRxqFwoTCNirxc7qhIMDFQAAAAAdAAAAABAE',
-  surname: 'Bond',
+  first_name: 'Stepan',
+  last_name: 'Bond',
   age: 48,
   role: 'marketer'
 }
 
-const login = (username: string, password: string): {user: User | null, error?: string} => {
-  return {user}  
+const url = 'http://localhost:3001/users'
+
+const login = async (username: string, password: string): Promise<{user: User | null, error?: string}> => {
+  const body = JSON.stringify({ username, password })
+  const user: User | null | {error: string}  = await fetch(`${url}/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body,
+  }).then(res => res.json()).catch(err => { console.error(err); return null })
+
+  if (!user) {
+    return { user: null, error: 'Something went wrong. Please, try again later...' }
+  }
+
+  if (user.error) {
+    return { user: null, error: user.error }
+  }
+
+  return { user }
 }
 
-const signIn = (username: string, password: string): {user: User | null, error?: string} => {
-  return {user}
+const signIn = async (username: string, password: string): Promise<{user: User | null, error?: string}> => {
+  const body = JSON.stringify({ username, password })
+  const user: User | null | {error: string}  = await fetch(`${url}/signIn`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body,
+  }).then(res => res.json()).catch(err => { console.error(err); return null })
+
+  if (!user) {
+    return { user: null, error: 'Something went wrong. Please, try again later...' }
+  }
+
+  if (user.error) {
+    return { user: null, error: user.error }
+  }
+
+  return { user }
 }
 
 const getUsers = () => {
@@ -25,11 +61,16 @@ const loadUsers = async (parameters: string) => {
   
 }
 
+const getUsersByGameId = async (userId: string): UserByGame[] => {
+  return [{...user, boughtDate: new Date()} as UserByGame]
+}
+
 const usersApi = {
   getUsers,
   loadUsers,
   login,
-  signIn
+  signIn,
+  getUsersByGameId
 }
 
 export default usersApi
