@@ -61,8 +61,8 @@ const loadUsers = async (parameters: string) => {
   
 }
 
-const getUsersByGameId = async (userId: string): UserByGame[] => {
-  return [{...user, boughtDate: new Date()} as UserByGame]
+const getUsersByGameId = async (gameId: string): UserByGame[] => {
+  return fetch(`${url}/${gameId}`).then(res => res.json()).catch(err => { console.error(err); return [] })
 }
 
 const usersApi = {

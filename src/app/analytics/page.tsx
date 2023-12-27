@@ -1,6 +1,6 @@
 'use client';
 import { observer } from 'mobx-react';
-import BarChart from '../components/analytics/BarChart'
+import BarChart from '../components/analytics/Plot'
 import usersStore from "../stores/UsersStore";
 import AnalyticsOption from '../components/analytics/AnalyticsOption';
 
@@ -20,7 +20,6 @@ function AnalyticsPage() {
       <div>
         <AnalyticsOption></AnalyticsOption>
       </div>
-        {/* <BarChart data={[{type: 'bar', x: [1, 2, 3], y: [2, 5, 3]}]} layout={{width: 1000, height: 500, title: ''}}></BarChart> */}
       </>
     )
   }

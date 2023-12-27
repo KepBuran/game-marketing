@@ -1,5 +1,5 @@
-interface PlotData {
-  x: number[],
+export interface PlotData {
+  x: number[] | string[],
   y: number[],
   type: string,
   mode?: string,
