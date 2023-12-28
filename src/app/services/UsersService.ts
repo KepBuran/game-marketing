@@ -10,7 +10,6 @@ export class UsersService {
   private static instance: UsersService;
   
   private constructor() {
-    this.signIn('czczc', 'czczc')
     this.getCurrentUserGames();
   }
 
